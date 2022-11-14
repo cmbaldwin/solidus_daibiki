@@ -1,6 +1,8 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  cash_received: "Cash Received"
-  shipping_and_handling: 'Handling charges'
+  spree:
+    checkout:
+      payment:
+        daibiki:
+          daibiki_checkout_title: Cash on Delivery
+          daibiki_checkout_instructions: Please pay in cash in exchange for the product upon arrival.
+          daibiki_checkout_fee: Cash on Delivery Fee： %{fee}

@@ -1,29 +1,32 @@
-require 'rake'
-require 'rake/testtask'
-require 'rake/packagetask'
-require 'rubygems/package_task'
-require 'rspec/core/rake_task'
-require 'spree/core/testing_support/common_rake'
+# frozen_string_literal: true
 
-RSpec::Core::RakeTask.new
+require 'bundler'
 
-task :default => [:spec]
+Bundler::GemHelper.install_tasks
 
-spec = eval(File.read('solidus_cash_on_delivery.gemspec'))
+begin
+  require 'spree/testing_support/extension_rake'
+  require 'rubocop/rake_task'
+  require 'rspec/core/rake_task'
 
-Gem::PackageTask.new(spec) do |p|
-  p.gem_spec = spec
+  RSpec::Core::RakeTask.new(:spec)
+
+  RuboCop::RakeTask.new
+
+  task default: %i[first_run rubocop spec]
+rescue LoadError
+  # no rspec available
 end
 
-desc "Release to gemcutter"
-task :release => :package do
-  require 'rake/gemcutter'
-  Rake::Gemcutter::Tasks.new(spec).define
-  Rake::Task['gem:push'].invoke
+task :first_run do
+  if Dir['spec/dummy'].empty?
+    Rake::Task[:test_app].invoke
+    Dir.chdir('../../')
+  end
 end
 
-desc "Generates a dummy app for testing"
+desc 'Generates a dummy app for testing'
 task :test_app do
-  ENV['LIB_NAME'] = 'spree_cash_on_delivery'
-  Rake::Task['common:test_app'].invoke
+  ENV['LIB_NAME'] = 'solidus_daibiki'
+  Rake::Task['extension:test_app'].invoke
 end

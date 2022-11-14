@@ -1,0 +1,13 @@
+<%
+  payment_method =
+    @order.payments.map(&:payment_method).select do |pm|
+      pm.is_a?(Spree::PaymentMethod::Daibiki)
+    end.first
+%>
+
+<% if payment_method.present? %>
+  <h4><%= t('.daibiki_checkout_title') %></h4>
+  <p>
+    <strong><%= t('.daibiki_checkout_instruction') %></strong>
+  </p>
+<% end %>

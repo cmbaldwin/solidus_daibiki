@@ -1,0 +1,8 @@
+ja:
+  spree:
+    checkout:
+      payment:
+        daibiki:
+          daibiki_checkout_title: 代金引換
+          daibiki_checkout_instructions: 商品到着時に、商品と引き換えに、現金にてお支払いお願い致します。
+          daibiki_checkout_fee: 代引き手数料： %{fee}
