@@ -2,7 +2,7 @@ module Spree
   class CheckoutController < Spree::StoreController
     module AddDaibikiFee
       def self.prepended(base)
-        base.before_action :apply_daibiki_fee
+        base.after_action :apply_daibiki_fee
       end
 
       private
@@ -13,9 +13,10 @@ module Spree
         # Lazy but we're just going to assume that there's only one of these payment method types
         @daibiki = Spree::PaymentMethod::Daibiki.first
         @label = @daibiki.name
-        @adjustable = current_order.shipments.first
-        has_adjustment = @adjustable.adjustments.map(&:label).include?(@label)
+        has_adjustment = current_order.adjustments.map(&:label).include?(@label)
         has_adjustment ? check_and_remove_daibiki_fee : add_daibiki_fee_adjustment
+        # Update totals (manually load order to get the new adjustments and clear cache)
+        Spree::Order.find(current_order.id).recalculate
       end
 
       def check_and_remove_daibiki_fee
@@ -23,8 +24,8 @@ module Spree
         params[:order][:payments_attributes].each do |payment|
           next if payment[:payment_method_id] == @daibiki.id.to_s
           
-          Rails.logger.info "Removing daibiki fee for order #{current_order.number}"
-          adjustments = @adjustable.adjustments.where(label: @label)
+          Rails.logger.info "Removing daibiki fee from order #{current_order.number}"
+          adjustments = current_order.adjustments.where(label: @label)
           adjustments.destroy_all
         end
       end
@@ -41,13 +42,13 @@ module Spree
 
       def daibiki_fee_adjustment
         # Only need to apply this fee once even if there were multiple packages
-        @adjustable.adjustments.create!(
+        current_order.adjustments.create!(
           amount: @daibiki.preferences[:daibiki_fee],
           label: @label,
-          adjustable_type: "Spree::Order",
+          adjustable_type: current_order.class.name,
           adjustable_id: current_order.id,
           order_id: current_order.id,
-          source_type: "Spree::PaymentMethod::Daibiki",
+          source_type: @daibiki.class.name,
           source_id: @daibiki.id
         )
       end
