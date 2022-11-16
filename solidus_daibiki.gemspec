@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = 'Solidus Daibiki (代引き・COD)'
   s.license     = 'BSD-3-Clause'
 
-  s.authors    = ['Cody Baldwin']
+  s.authors = ['Cody Baldwin']
   s.email     = 'codybaldwin@gmail.com'
   s.homepage  = 'https://cozyorb.com'
 
