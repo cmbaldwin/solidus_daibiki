@@ -17,10 +17,10 @@ module SolidusDaibiki
       end
     end
 
-    overrides = "#{Rails.root}/app/overrides"
+    extensions = "#{Rails.root}/app/extensions"
     config.to_prepare do
-      Dir.glob("#{overrides}/**/*_override.rb").each do |override|
-        load override
+      Dir.glob("#{extensions}/**/*.rb").each do |extension|
+        load extension
       end
     end
 
