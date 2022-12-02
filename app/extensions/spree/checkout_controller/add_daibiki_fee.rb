@@ -2,7 +2,7 @@ module Spree
   class CheckoutController < Spree::StoreController
     module AddDaibikiFee
       def self.prepended(base)
-        base.before_action :apply_daibiki_fee
+        base.before_action :apply_daibiki_fee, only: :update
         base.after_action :destroy_checkout_invalid
         base.after_action :assure_accurate_totals
       end
@@ -14,17 +14,20 @@ module Spree
       end
 
       def apply_daibiki_fee
+        Rails.logger.info 'apply_daibiki_fee'
+        Rails.logger.info params
         return unless params[:state] == 'payment' && params[:order]
 
         # Lazy but we're just going to assume that there's only one of these payment method types
         @daibiki = Spree::PaymentMethod::Daibiki.first
         @label = @daibiki.name
         prior_adjustment? ? check_and_remove_daibiki_fee : add_daibiki_fee_adjustment
-        # Update totals (manually reload order to get the new adjustments and clear cache)
+        # Update totals (manually load order to get the new adjustments and clear cache)
         Spree::Order.find(current_order.id).recalculate
       end
 
       def check_and_remove_daibiki_fee
+        Rails.logger.info 'Check and remove trigger'
         # Remove the adjustment if it's already there, and the payment method has changed
         params[:order][:payments_attributes].each do |payment|
           next if payment[:payment_method_id] == @daibiki.id.to_s
@@ -35,6 +38,7 @@ module Spree
       end
 
       def add_daibiki_fee_adjustment
+        Rails.logger.info 'Add daibiki fee trigger'
         # Add the adjustment if it's not there, and the payment method is daibiki
         params[:order][:payments_attributes].each do |payment|
           next if payment[:payment_method_id] != @daibiki.id.to_s
@@ -44,10 +48,15 @@ module Spree
         end
       end
 
+      def calculate_daibiki_fee
+        pref = @daibiki.preferences
+        current_order.total.to_i > pref[:daibiki_over_amount] ? pref[:daibiki_fee_big] : pref[:daibiki_fee]
+      end
+
       def daibiki_fee_adjustment
         # Only need to apply this fee once even if there were multiple packages
         current_order.adjustments.create!(
-          amount: @daibiki.preferences[:daibiki_fee],
+          amount: calculate_daibiki_fee,
           label: @label,
           adjustable_type: current_order.class.name,
           adjustable_id: current_order.id,

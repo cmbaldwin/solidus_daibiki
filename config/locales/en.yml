@@ -1,5 +1,8 @@
 en:
   spree:
+    daibiki_fee: Daibiki Fee
+    daibiki_fee_big: Daibiki Fee (if order total is over below amount)
+    daibiki_over_amount: Order total is over below amount, daibiki fee will be increased.ß 
     checkout:
       payment:
         daibiki:

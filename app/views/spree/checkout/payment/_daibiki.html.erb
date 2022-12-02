@@ -1,4 +1,5 @@
-<% fee = Spree::PaymentMethod&.where(type: "Spree::PaymentMethod::Daibiki")&.map{|p| p if p.stores.include?(current_store)}&.compact&.first&.preferences[:daibiki_fee] %>
+<% preferences = Spree::PaymentMethod&.where(type: "Spree::PaymentMethod::Daibiki")&.map{|p| p if p.stores.include?(current_store)}&.compact&.first&.preferences %>
+<% fee = @order.total.to_i > preferences[:daibiki_over_amount] ? preferences[:daibiki_fee_big] : preferences[:daibiki_fee] %>
 
 <div class="mt-2">
   <h4><%= t('.daibiki_checkout_title') %></h4>

@@ -6,7 +6,7 @@ RSpec.describe Spree::PaymentMethod::Daibiki, type: :model do
   let(:order) { Spree::Order.new }
   let(:payment_method) { described_class.create!(name: 'Daibiki', active: true) }
   let(:payment) do
-    Spree::Payment.new(amount: 0.0, order: order, payment_method: payment_method)
+    Spree::Payment.new(amount: 0.0, order:, payment_method:)
   end
 
   before do
@@ -16,13 +16,17 @@ RSpec.describe Spree::PaymentMethod::Daibiki, type: :model do
   describe 'preferences' do
     before do
       payment_method.update!(
-        preferred_daibiki_fee: '123'
+        preferred_daibiki_fee: '220',
+        preferred_daibiki_fee_big: '330',
+        preferred_dabiki_over_amount: '10000'
       )
     end
 
     it 'saves the preferences' do
       aggregate_failures do
-        expect(payment_method.preferred_dabiki_fee).to eq('123')
+        expect(payment_method.preferred_dabiki_fee).to eq('220')
+        expect(payment_method.preferred_dabiki_fee_big).to eq('330')
+        expect(payment_method.preferred_dabiki_over_amount).to eq('10000')
       end
     end
   end

@@ -1,5 +1,10 @@
 ja:
   spree:
+    daibiki_fee: 代引き手数料
+    daibiki_fee_big: 代引き手数料（下の金額を超えた手数料）
+    daibiki_over_amount: 注文合計はこの金額以上になったら、代引き手数料が増えます。
+    description: 説明
+    store: ストア
     checkout:
       payment:
         daibiki:
