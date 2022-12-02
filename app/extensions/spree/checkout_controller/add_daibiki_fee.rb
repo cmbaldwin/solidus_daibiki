@@ -59,14 +59,18 @@ module Spree
 
       def assure_accurate_totals
         # Assure that the new order total is applied to the payment method amount
-        current_order.payments.each do |payment|
+        return unless current_order
+
+        current_order&.payments&.each do |payment|
           payment.update(amount: current_order.total)
         end
       end
 
       def destroy_checkout_invalid
         # Remove any invalid payments, useless information if the payment method has changed during checkout
-        current_order.payments.where(state: 'invalid').destroy_all
+        return unless current_order
+
+        current_order&.payments&.where(state: 'invalid')&.destroy_all
       end
 
       ::Spree::CheckoutController.prepend self
