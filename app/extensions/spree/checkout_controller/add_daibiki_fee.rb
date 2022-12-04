@@ -14,8 +14,6 @@ module Spree
       end
 
       def apply_daibiki_fee
-        Rails.logger.info 'apply_daibiki_fee'
-        Rails.logger.info params
         return unless params[:state] == 'payment' && params[:order]
 
         # Lazy but we're just going to assume that there's only one of these payment method types
