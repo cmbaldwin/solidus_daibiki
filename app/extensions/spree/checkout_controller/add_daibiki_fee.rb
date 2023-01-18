@@ -19,24 +19,17 @@ module Spree
         # Lazy but we're just going to assume that there's only one of these payment method types
         @daibiki = Spree::PaymentMethod::Daibiki.first
         @label = @daibiki.name
-        prior_adjustment? ? check_and_remove_daibiki_fee : add_daibiki_fee_adjustment
+        remove_daibiki_fee_adjustment # Reset any daibiki adjustments
+        add_daibiki_fee_adjustment # Add fees for daibiki if needed
         # Update totals (manually load order to get the new adjustments and clear cache)
         Spree::Order.find(current_order.id).recalculate
       end
 
-      def check_and_remove_daibiki_fee
-        Rails.logger.info 'Check and remove trigger'
-        # Remove the adjustment if it's already there, and the payment method has changed
-        params[:order][:payments_attributes].each do |payment|
-          next if payment[:payment_method_id] == @daibiki.id.to_s
-
-          Rails.logger.info "Removing daibiki fee from order #{current_order.number}"
-          current_order.adjustments.where(label: @label).destroy_all
-        end
+      def remove_daibiki_fee_adjustment
+        current_order.adjustments.where(label: @label).destroy_all
       end
 
       def add_daibiki_fee_adjustment
-        Rails.logger.info 'Add daibiki fee trigger'
         # Add the adjustment if it's not there, and the payment method is daibiki
         params[:order][:payments_attributes].each do |payment|
           next if payment[:payment_method_id] != @daibiki.id.to_s
