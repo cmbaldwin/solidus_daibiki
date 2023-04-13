@@ -3,6 +3,7 @@ ja:
     daibiki_fee: 代引き手数料
     daibiki_fee_big: 代引き手数料（下の金額を超えた手数料）
     daibiki_over_amount: 注文合計はこの金額以上になったら、代引き手数料が増えます。
+    daibiki_max_amount: 代引き手数料の最大金額（ご注文の合計金額がこの金額を超える場合、チェックアウト時にこのオプションは使用できなくなります。）
     description: 説明
     store: ストア
     checkout:
@@ -11,3 +12,4 @@ ja:
           daibiki_checkout_title: 代金引換
           daibiki_checkout_instructions: 商品到着時に、商品と引き換えに、現金にてお支払いお願い致します。
           daibiki_checkout_fee: 代引き手数料： %{fee}
+          daibiki_exceed_max_warning: 【%{max_amount}円】以上のご注文の場合、代金引換はご利用いただけません。

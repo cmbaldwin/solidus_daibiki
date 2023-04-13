@@ -2,10 +2,12 @@ en:
   spree:
     daibiki_fee: Daibiki Fee
     daibiki_fee_big: Daibiki Fee (if order total is over below amount)
-    daibiki_over_amount: Order total is over below amount, daibiki fee will be increased.ß 
+    daibiki_over_amount: Order total is over below amount, daibiki fee will be increased.
+    daibiki_max_amount: Daibiki Fee Max Amount (if order total is over this amount, you can't use this option at checkout.)
     checkout:
       payment:
         daibiki:
           daibiki_checkout_title: Cash on Delivery
           daibiki_checkout_instructions: Please pay in cash in exchange for the product upon arrival.
           daibiki_checkout_fee: Cash on Delivery Fee： %{fee}
+          daibiki_exceed_max_warning: Cash on Delivery is unavailable for orders with a total over %{max_amount} yen.

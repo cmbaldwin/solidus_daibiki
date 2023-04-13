@@ -5,6 +5,7 @@ module Spree
     preference :daibiki_fee, :integer, default: 220
     preference :daibiki_fee_big, :integer, default: 330
     preference :daibiki_over_amount, :integer, default: 10_000
+    preference :daibki_max_amount, :integer, default: 10_000
 
     def actions
       %w[capture void credit]
