@@ -13,3 +13,4 @@ ja:
           daibiki_checkout_instructions: 商品到着時に、商品と引き換えに、現金にてお支払いお願い致します。
           daibiki_checkout_fee: 代引き手数料： %{fee}
           daibiki_exceed_max_warning: 【%{max_amount}円】以上のご注文の場合、代金引換はご利用いただけません。
+          daibiki_no_user_warning: 代金引換は、会員登録をされている方のみご利用いただけます。会員登録をされていない方は、代金引換はご利用いただけません。

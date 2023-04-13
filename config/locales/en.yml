@@ -11,3 +11,4 @@ en:
           daibiki_checkout_instructions: Please pay in cash in exchange for the product upon arrival.
           daibiki_checkout_fee: Cash on Delivery Fee： %{fee}
           daibiki_exceed_max_warning: Cash on Delivery is unavailable for orders with a total over %{max_amount} yen.
+          daibiki_no_user_warning: Cash on Delivery is unavailable for non-members. Please register as a member to use Cash on Delivery.

@@ -3,7 +3,7 @@
 <% fee = @order.total.to_i > preferences[:daibiki_over_amount] ? preferences[:daibiki_fee_big] : preferences[:daibiki_fee] %>
 <% max_amount = preferences[:daibki_max_amount] %>
 
-<div class="mt-2" id="daibiki-description" data-total-max="<%= max_amount %>" data-warning-message="<%= t('.daibiki_exceed_max_warning', max_amount:) %>" data-payment-id="<%= payment_method.id %>" data-order-total="<%= @current_order.total.to_i %>">
+<div class="mt-2" id="daibiki-description" data-total-max="<%= max_amount %>" data-no-user-warning="<%= t('.daibiki_no_user_warning') %>" data-total-excess-warning="<%= t('.daibiki_exceed_max_warning', max_amount:) %>" data-payment-id="<%= payment_method.id %>" data-order-total="<%= @current_order.total.to_i %>">
   <h4><%= t('.daibiki_checkout_title') %></h4>
   <p>
     <strong><%= t('.daibiki_checkout_instructions') %></strong><br>
