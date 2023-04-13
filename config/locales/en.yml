@@ -4,6 +4,7 @@ en:
     daibiki_fee_big: Daibiki Fee (if order total is over below amount)
     daibiki_over_amount: Order total is over below amount, daibiki fee will be increased.
     daibiki_max_amount: Daibiki Fee Max Amount (if order total is over this amount, you can't use this option at checkout.)
+    limit_to_registered_users: Limit to registered users. Non-members can't use this option.
     checkout:
       payment:
         daibiki:
